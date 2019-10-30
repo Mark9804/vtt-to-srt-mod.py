@@ -25,15 +25,16 @@
 import os
 import re
 import sys
-import io
 from stat import *
-from typing import TextIO
 
 
 def convert_content(file_contents: str):
-    replacement = re.sub(r"(\d\d:\d\d:\d\d).(\d\d\d) --> (\d\d:\d\d:\d\d).(\d\d\d)(?:[ \-\w]+:[\w\%\d:]+)*\n", r"\1,\2 --> \3,\4\n", file_contents)
-    replacement = re.sub(r"(\d\d:\d\d).(\d\d\d) --> (\d\d:\d\d).(\d\d\d)(?:[ \-\w]+:[\w\%\d:]+)*\n", r"\1,\2 --> \3,\4\n", replacement)
-    replacement = re.sub(r"(\d\d).(\d\d\d) --> (\d\d).(\d\d\d)(?:[ \-\w]+:[\w\%\d:]+)*\n", r"\1,\2 --> \3,\4\n", replacement)
+    replacement = re.sub(r"(\d\d:\d\d:\d\d).(\d\d\d) --> (\d\d:\d\d:\d\d).(\d\d\d)(?:[ \-\w]+:[\w\%\d:]+)*\n",
+                         r"\1,\2 --> \3,\4\n", file_contents)
+    replacement = re.sub(r"(\d\d:\d\d).(\d\d\d) --> (\d\d:\d\d).(\d\d\d)(?:[ \-\w]+:[\w\%\d:]+)*\n",
+                         r"\1,\2 --> \3,\4\n", replacement)
+    replacement = re.sub(r"(\d\d).(\d\d\d) --> (\d\d).(\d\d\d)(?:[ \-\w]+:[\w\%\d:]+)*\n", r"\1,\2 --> \3,\4\n",
+                         replacement)
     replacement = re.sub(r"WEBVTT\n", "", replacement)
     replacement = re.sub(r"Kind:[ \-\w]+\n", "", replacement)
     replacement = re.sub(r"Language:[ \-\w]+\n", "", replacement)
@@ -46,7 +47,8 @@ def convert_content(file_contents: str):
     replacement = re.sub(r"Style:\n##\n", "", replacement)
     return replacement
 
-# Added: read & write in utf-8 encoding (line 55, line 67) - Mark Chen 191029
+
+# Added: read & write in utf-8 encoding (line 57, line 69) - Mark Chen 191029
 def file_create(str_name_file, str_data):
     # --------------------------------
     # file_create(str_name_file, str_data)
@@ -108,7 +110,7 @@ def convert_vtt_to_str(f):
         vtt_to_srt(f)
 
 
-def vtts_to_srt(directory, rec = False):
+def vtts_to_srt(directory, rec=False):
     top_most_path = directory
     if rec:
         walk_tree(top_most_path, convert_vtt_to_str)
@@ -127,8 +129,9 @@ if __name__ == "__main__":
         print_usage()
         exit()
     path = sys.argv[1]
-    rec = True if len(sys.argv) > 2 and sys.argv[2] == "-r" else False
+    rec = True if len(sys.argv) > 2 and sys.argv[-1] == "-r" else False
     if os.path.isdir(path):
         vtts_to_srt(path, rec)
     else:
-        vtt_to_srt(path)
+        for path in sys.argv[1::]:
+            vtt_to_srt(path)

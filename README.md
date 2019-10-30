@@ -18,7 +18,7 @@ pathname - a file or directory with files to be converted
 
 ### As executable:
 
-Drag & Drop .vtt file on the executable. (Only single file is supported right now.)
+Drag & Drop .vtt files on the executable. ~~(Only single file is supported right now.)~~ Now supports as many files as you like.
 
 ## Features
 
@@ -28,4 +28,5 @@ Drag & Drop .vtt file on the executable. (Only single file is supported right no
   - Convert all vtt files to srt subtitle format
 - Added:
   - Enable support on non-English (Japanese, Korean, Chinese) vtt files instead of showing ` 'gbk' codec can't decode byte ... `
+  - Enable support to convert multiple files at a single time
 
